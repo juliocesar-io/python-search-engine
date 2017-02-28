@@ -27,4 +27,4 @@ Probar en http://localhost:4545
 
 ### Resultado
 
-<img src="http://i.imgur.com/yTgi6Ft.png">
+<img src="https://raw.githubusercontent.com/juliocesar-io/python_web_practice/master/static/img/screenshot%231.png">
