@@ -17,7 +17,6 @@ ALLOWED_EXTENSIONS = set(['txt'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
 # Metodo que obtiene el nombre del archivo en minusculas y solo con formato txt
 def allowed_file(filename):
     return '.' in filename and \
@@ -37,6 +36,7 @@ def get_words_dict(path):
 
     return w_dic
 
+
 # Este metodo ordena un diccionario, primero lo covierte en una tupla luego ordena por valor y finalmente por la llave.
 # en forma desendente.
 def sort_words_dict(word_dict):
@@ -47,6 +47,7 @@ def sort_words_dict(word_dict):
     return words_sorted
 
 
+# Busca si existe una llave el un diccionario dado
 def word_search(key, word_dict):
 
     if key in word_dict:
@@ -57,11 +58,12 @@ def word_search(key, word_dict):
     return res
 
 
+# Este metodo toma cada palabra y elimina caracteres especiales
 def clean_word(word):
 
     w = unicodedata.normalize('NFKD', word).encode('ASCII', 'ignore').upper()
     regex = re.compile('[^a-zA-Z]')
-    # First parameter is the replacement, second parameter is your input string
+    # El primer parametro el un string vacio por el que se remplazara , el segundo la palabra en cuestion.
     w = regex.sub('', w)
     return w
 
@@ -70,27 +72,31 @@ def clean_word(word):
 def upload_file():
     if request.method == 'POST':
 
-        # check if the post request has the file part
+        # Verificar si en la peticion POST esta el archivo 'file'
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        # Verificar que este en el formato permitido
-        if file and allowed_file(file.filename):
-            # Limpiar el nombre del archivo
 
+        # Si no se selecciona un archivo es porque el nombre esta vacio, entonces se redirecciona al formulario.
+        if file.filename == '':
+            return redirect(request.url)
+        else:
+            # Caso contratrio se comprueba que el archivo este permitido, si no, mostrar una alerta.
+            if not allowed_file(file.filename):
+                return render_template('alert.html', filename=file.filename)
+
+        # Verificar que el nombre este en el formato permitido en ALLOWED_EXTENSIONS
+        if file and allowed_file(file.filename):
+
+            # Limpiar el nombre del archivo
             filename = secure_filename(file.filename)
-            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
             # Guardar archivo en el directorio definido
+            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(path)
 
             # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
-
             words = get_words_dict(path)
 
             # Organizar por ocurrencia y orden alfabetico
@@ -98,13 +104,11 @@ def upload_file():
 
             # Buscar una palabra dada
             search_key = request.form['buscar-palabra'].upper()
-
             search_result = word_search(search_key, words)
 
             return render_template('response.html', words_result=words_result_sorted, search_key=search_key,
                                    search_result=search_result, filename=filename)
     return render_template('form.html')
-
 
 if __name__ == '__main__':
     app.secret_key = 'dasdx45345'
