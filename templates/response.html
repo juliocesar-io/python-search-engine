@@ -27,6 +27,8 @@ tr:nth-child(even) {
 
     <h1>Resultado: </h1>
 
+    <p>Archivo: {{ filename }}</p>
+
     {% if search_result %}
         <p>La palabra {{ search_key }} aparece {{ search_result }} veces</p>
     {% else %}

@@ -84,7 +84,7 @@ def upload_file():
             search_result = word_search(search_key, words)
 
             return render_template('response.html', words_result=words_result_sorted, search_key=search_key,
-                                   search_result=search_result)
+                                   search_result=search_result, filename=filename)
     return render_template('form.html')
 
 
