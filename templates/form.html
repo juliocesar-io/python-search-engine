@@ -2,25 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Practica #1</title>
+    <title>Buscador Python</title>
     <style>
-        body {
-            text-align: center;
+        body{
+            font-family: "Helvetica Neue", "Times New Roman";
         }
+
+        .search-container {
+            text-align: center;
+            margin: auto;
+            width: 50%;
+            padding: 150px;
+        }
+
+        .search-input{
+            width: 400px;
+        }
+        .search-options{
+            color: gray;
+            text-align: center;
+            font-size: 14px;
+
+        }
+
+        .search-logo {
+            width:75px;
+        }
+
+        #input-file, #input-url{
+            display: none;
+        }
+
+        span {
+            font-size: 13px;
+        }
+
     </style>
 </head>
 <body>
 
-<h1>Buscador</h1>
+
+<div class="search-container">
+    <img class="search-logo" src="static/logo.svg" alt="">
+    <h1>Buscador Python</h1>
     <form method=post enctype=multipart/form-data>
-        <p>  <input type="search" placeholder="Palabra" name="buscar-palabra"></p>
+        <p>  <input class="search-input" type="search" name="buscar-palabra" placeholder=">" autofocus required></p>
 
-        <p> <input type=file name=file required></p>
+        <div class="search-options">
+            <input type="radio" name="en" onclick="showOption(this);" value="file-text"> Archivo
+            <input type="radio" name="en" onclick="showOption(this);" value="html"> URL
+        </div>
+        <br>
+        <input id="input-file" type=file name=file>
+        <input id="input-url" type="url" name="web-page" placeholder="https://python.org/">
 
+        <p>  <input type=submit value=Buscar></p>
 
-        <p>  <input type=submit value=Buscar required></p>
+        <br>
+
+        <span><a href="https://github.com/juliocesar-io/python_web_practice" target="_blank">Repositorio Github</a></span>
 
     </form>
+</div>
 
 </body>
+
+<script>
+
+    var input_file_element = document.getElementById("input-file");
+    var input_url_element = document.getElementById("input-url");
+
+    function showOption(option) {
+
+        switch (option.value){
+            case 'file-text':
+                input_file_element.style.display = 'inline';
+                input_file_element.required = true;
+                input_url_element.style.display = 'none';
+                input_url_element.required = false;
+                break;
+            case 'html':
+                input_file_element.required = false;
+                input_file_element.style.display = 'none';
+                input_url_element.style.display = 'inline';
+                 input_url_element.required = true;
+                break;
+
+        }
+    }
+
+</script>
 </html>

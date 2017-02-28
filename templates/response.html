@@ -17,24 +17,31 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+    span{
+        color: gray;
+    }
 
 
 </style>
     <meta charset="UTF-8">
     <title>Practica #1</title>
 
-
+    <a href="/">Regresar</a>
 
     <h1>Resultado: </h1>
 
-    <p>Archivo: {{ filename }}</p>
+
+    <p>Archivo: <a href="/file/{{ filename }}">{{ filename }}</a></p>
+
+    <hr>
 
     {% if search_result %}
-        <p>La palabra {{ search_key }} aparece {{ search_result }} veces</p>
+        <span>La palabra {{ search_key }} aparece {{ search_result }} veces ({{ benchmark }} segundos)</span>
     {% else %}
-        <p>No se encuentra la palabra {{ search_key }}</p>
+        <span>No se encuentra la palabra {{ search_key }} ({{ benchmark }} segundos) </span>
     {% endif %}
-
+    <br>
+    <br>
         <table>
         <tr>
             <th>No. </th>

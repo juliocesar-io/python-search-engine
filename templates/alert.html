@@ -3,8 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+
+    <style>
+        .msj {
+            text-align: center;
+            margin: auto;
+            width: 50%;
+            padding: 200px;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
-    <p>Archivo no permitido <strong>{{ filename }}</strong></p>
+    <div class="msj">
+    <p>Archivo "<strong>{{ filename }}</strong>" no permitido </p>
+    <br>
+    <a href="/">Regresar</a>
+        </div>
 </body>
 </html>
