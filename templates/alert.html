@@ -16,7 +16,17 @@
 </head>
 <body>
     <div class="msj">
-    <p>Archivo "<strong>{{ filename }}</strong>" no permitido </p>
+
+        {% if error_file %}
+         <p>Archivo "<strong>{{ error_file }}</strong>" no permitido </p>
+
+        {% elif error_url %}
+
+            <p>La URL "<strong>{{ url }}</strong>" retorna error: {{error_url }} </p>
+
+        {% endif %}
+
+
     <br>
     <a href="/">Regresar</a>
         </div>

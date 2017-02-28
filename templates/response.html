@@ -30,8 +30,12 @@ tr:nth-child(even) {
 
     <h1>Resultado: </h1>
 
+    {% if filename %}
+    <p>Archivo: <a href="/file/{{ filename }}"  target="_blank">{{ filename }}</a></p>
+    {% else %}
+     <p>URL: <a href="{{ url }}" target="_blank">{{ url }}</a></p>
+    {% endif %}
 
-    <p>Archivo: <a href="/file/{{ filename }}">{{ filename }}</a></p>
 
     <hr>
 

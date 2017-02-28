@@ -8,6 +8,9 @@ import re
 import codecs
 import time
 from flask import send_file
+import urllib
+from bs4 import BeautifulSoup
+
 
 # Path donde se guardaran los archivos subidos, !Cambiar a un directorio existente!
 UPLOAD_FOLDER = '/Users/JulioC/PycharmProjects/flask-practice/media'
@@ -27,18 +30,55 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def get_words_dict(c):
+
+    w_dict = {}
+
+    for word, count in c.items():
+        w_dict[word] = count
+
+    return w_dict
+
+
 # Lee el archvio txt dado la ruta lo condifica como UTF-8 luego obtiene un diccionario con con cada una de las palabras
 # donde la palabra es la llave y el valor el numero de veces que se repite.
-def get_words_dict(path):
+def get_words_txt(path):
 
-    w_dic = {}
     with codecs.open(path, encoding='utf-8') as f:
         words = [clean_word(word) for line in f for word in line.split()]
         c = Counter(words)
-        for word, count in c.items():
-            w_dic[word] = count
 
-    return w_dic
+    return get_words_dict(c)
+
+
+def get_words_html(url):
+
+    html = urllib.urlopen(url).read()
+    soup = BeautifulSoup(html, "html.parser")
+
+    # kill all script and style elements
+    for script in soup(["script", "style"]):
+        script.extract()  # rip it out
+
+    # get text
+    text = soup.get_text()
+    # break into lines and remove leading and trailing space on each
+    lines = (line.strip() for line in text.splitlines())
+    # break multi-headlines into a line each
+    chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+    # drop blank lines
+    text = '\n'.join(chunk for chunk in chunks if chunk)
+
+    plain_words = text.split()
+
+    c_plain = Counter(plain_words)
+
+    # Transformar y contar cada una de las palabras similares
+    c = Counter()
+    for k, v in c_plain.items():
+        c.update({clean_word(k): v})
+
+    return get_words_dict(c)
 
 
 # Este metodo ordena un diccionario, primero lo covierte en una tupla luego ordena por valor y finalmente por la llave.
@@ -77,44 +117,61 @@ def upload_file():
     start_time = time.time()
     if request.method == 'POST':
 
-        # Verificar si en la peticion POST esta el archivo 'file'
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file_p = request.files['file']
+        if request.files['file'].filename != '':
 
-        # Si no se selecciona un archivo es porque el nombre esta vacio, entonces se redirecciona al formulario.
-        if file_p.filename == '':
-            return redirect(request.url)
-        else:
-            # Caso contratrio se comprueba que el archivo este permitido, si no, mostrar una alerta.
-            if not allowed_file(file_p.filename):
-                return render_template('alert.html', filename=file_p.filename)
+            file_p = request.files['file']
 
-        # Verificar que el nombre este en el formato permitido en ALLOWED_EXTENSIONS
-        if file_p and allowed_file(file_p.filename):
+            # Verificar que el nombre este en el formato permitido en ALLOWED_EXTENSIONS
+            if file_p and allowed_file(file_p.filename):
 
-            # Limpiar el nombre del archivo
-            filename = secure_filename(file_p.filename)
+                # Limpiar el nombre del archivo
+                filename = secure_filename(file_p.filename)
 
-            # Guardar archivo en el directorio definido
-            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file_p.save(path)
+                # Guardar archivo en el directorio definido
+                path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file_p.save(path)
 
-            # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
-            words = get_words_dict(path)
+                # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
+                words = get_words_txt(path)
 
-            # Organizar por ocurrencia y orden alfabetico
-            words_result_sorted = sort_words_dict(words)
+                # Organizar por ocurrencia y orden alfabetico
+                words_result_sorted = sort_words_dict(words)
 
-            # Buscar una palabra dada
-            search_key = request.form['buscar-palabra'].upper()
-            search_result = word_search(search_key, words)
+                # Buscar una palabra dada
+                search_key = request.form['buscar-palabra'].upper()
+                search_result = word_search(search_key, words)
 
-            end_time = time.time() - start_time
+                end_time = time.time() - start_time
 
-        return render_template('response.html', words_result=words_result_sorted, search_key=search_key,
-                               search_result=search_result, filename=filename, benchmark=end_time)
+                return render_template('response.html', words_result=words_result_sorted, search_key=search_key,
+                                       search_result=search_result, filename=filename, benchmark=end_time)
+            else:
+                # Caso contratrio mostrar una alerta.
+                return render_template('alert.html', error_file=file_p.filename)
+
+        elif request.form['url'] != '':
+            url = request.form['url']
+            r = urllib.urlopen(url)
+            if r.getcode() == '200':
+                # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
+                words = get_words_html(url)
+
+                # Organizar por ocurrencia y orden alfabetico
+                words_result_sorted = sort_words_dict(words)
+
+                # Buscar una palabra dada
+                search_key = request.form['buscar-palabra'].upper()
+                search_result = word_search(search_key, words)
+
+                end_time = time.time() - start_time
+
+                return render_template('response.html', url=url, words_result=words_result_sorted,
+                                       search_key=search_key, search_result=search_result, benchmark=end_time)
+
+            else:
+
+                return render_template('alert.html', error_url=r.getcode(), url=url)
+
     return render_template('form.html')
 
 
