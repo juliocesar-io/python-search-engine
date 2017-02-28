@@ -27,4 +27,4 @@ Probar en http://localhost:4545
 
 ### Resultado
 
-[Resultado](http://i.imgur.com/yTgi6Ft.png)
+<img src="http://i.imgur.com/yTgi6Ft.png">
