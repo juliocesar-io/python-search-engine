@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
 import os
 from flask import Flask, request, redirect, render_template, flash
 from werkzeug.utils import secure_filename
 from collections import Counter
+import unicodedata
+import re
+import codecs
 
-# Path donde se guardaran los archivos subidos
+
+# Path donde se guardaran los archivos subidos,
 UPLOAD_FOLDER = '/Users/JulioC/PycharmProjects/flask-practice/media'
 ALLOWED_EXTENSIONS = set(['txt'])
 
@@ -13,23 +18,27 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
+# Metodo que obtiene el nombre del archivo en minusculas y solo con formato txt
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+# Lee el archvio txt dado la ruta lo condifica como UTF-8 luego obtiene un diccionario con con cada una de las palabras
+# donde la palabra es la llave y el valor el numero de veces que se repite.
 def get_words_dict(path):
 
     w_dic = {}
-    with open(path) as f:
-        words = [word.upper() for line in f for word in line.split()]
+    with codecs.open(path, encoding='utf-8') as f:
+        words = [clean_word(word) for line in f for word in line.split()]
         c = Counter(words)
         for word, count in c.items():
             w_dic[word] = count
 
     return w_dic
 
-
+# Este metodo ordena un diccionario, primero lo covierte en una tupla luego ordena por valor y finalmente por la llave.
+# en forma desendente.
 def sort_words_dict(word_dict):
 
     words_tuple = tuple(word_dict.iteritems())
@@ -46,6 +55,15 @@ def word_search(key, word_dict):
         res = {}
 
     return res
+
+
+def clean_word(word):
+
+    w = unicodedata.normalize('NFKD', word).encode('ASCII', 'ignore').upper()
+    regex = re.compile('[^a-zA-Z]')
+    # First parameter is the replacement, second parameter is your input string
+    w = regex.sub('', w)
+    return w
 
 
 @app.route('/', methods=['GET', 'POST'])
