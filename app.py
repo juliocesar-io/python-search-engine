@@ -6,16 +6,20 @@ from collections import Counter
 import unicodedata
 import re
 import codecs
+import time
+from flask import send_file
 
-
-# Path donde se guardaran los archivos subidos,
+# Path donde se guardaran los archivos subidos, !Cambiar a un directorio existente!
 UPLOAD_FOLDER = '/Users/JulioC/PycharmProjects/flask-practice/media'
+
+# Extenciones de archivo permitidas.
 ALLOWED_EXTENSIONS = set(['txt'])
 
 
 # Configuracion de la app
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 # Metodo que obtiene el nombre del archivo en minusculas y solo con formato txt
 def allowed_file(filename):
@@ -58,7 +62,7 @@ def word_search(key, word_dict):
     return res
 
 
-# Este metodo toma cada palabra y elimina caracteres especiales
+# Este metodo toma cada palabra, elimina caracteres especiales y las tranforma a mayusculas.
 def clean_word(word):
 
     w = unicodedata.normalize('NFKD', word).encode('ASCII', 'ignore').upper()
@@ -70,31 +74,32 @@ def clean_word(word):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+    start_time = time.time()
     if request.method == 'POST':
 
         # Verificar si en la peticion POST esta el archivo 'file'
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
-        file = request.files['file']
+        file_p = request.files['file']
 
         # Si no se selecciona un archivo es porque el nombre esta vacio, entonces se redirecciona al formulario.
-        if file.filename == '':
+        if file_p.filename == '':
             return redirect(request.url)
         else:
             # Caso contratrio se comprueba que el archivo este permitido, si no, mostrar una alerta.
-            if not allowed_file(file.filename):
-                return render_template('alert.html', filename=file.filename)
+            if not allowed_file(file_p.filename):
+                return render_template('alert.html', filename=file_p.filename)
 
         # Verificar que el nombre este en el formato permitido en ALLOWED_EXTENSIONS
-        if file and allowed_file(file.filename):
+        if file_p and allowed_file(file_p.filename):
 
             # Limpiar el nombre del archivo
-            filename = secure_filename(file.filename)
+            filename = secure_filename(file_p.filename)
 
             # Guardar archivo en el directorio definido
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(path)
+            file_p.save(path)
 
             # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
             words = get_words_dict(path)
@@ -106,9 +111,21 @@ def upload_file():
             search_key = request.form['buscar-palabra'].upper()
             search_result = word_search(search_key, words)
 
-            return render_template('response.html', words_result=words_result_sorted, search_key=search_key,
-                                   search_result=search_result, filename=filename)
+            end_time = time.time() - start_time
+
+        return render_template('response.html', words_result=words_result_sorted, search_key=search_key,
+                               search_result=search_result, filename=filename, benchmark=end_time)
     return render_template('form.html')
+
+
+# Descargar archivos subidos al directorio UPLOAD_FOLDER
+@app.route('/file/<filename>', methods=['GET'])
+def return_file(filename):
+    try:
+
+        return send_file(UPLOAD_FOLDER + "/" + str(filename))
+    except Exception as e:
+        return str(e)
 
 if __name__ == '__main__':
     app.secret_key = 'dasdx45345'
