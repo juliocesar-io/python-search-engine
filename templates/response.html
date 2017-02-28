@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+
+</style>
+    <meta charset="UTF-8">
+    <title>Practica #1</title>
+
+
+
+    <h1>Resultado: </h1>
+
+    {% if search_result %}
+        <p>La palabra {{ search_key }} aparece {{ search_result }} veces</p>
+    {% else %}
+        <p>No se encuentra la palabra {{ search_key }}</p>
+    {% endif %}
+
+        <table>
+        <tr>
+            <th>No. </th>
+            <th>Palabra</th>
+            <th>Ocurrencia</th>
+
+        </tr>
+
+
+
+    {% for w, c in words_result %}
+          <tr>
+            <td>  {{loop.index}}</td>
+            <td>  {{ w }}</td>
+            <td>  {{ c }}</td>
+          </tr>
+    {% endfor %}
+
+
+        </table>
+
+</head>
+<body>
+
+</body>
+</html>
