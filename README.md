@@ -1,5 +1,5 @@
 
-# Python web practice
+# Python Search Engine
 
 
 Practicas de desarrollo web usando Python con Flask, en este practica se lee un archivo txt para leer su contenido, contar las palabras, ordenar y buscar.
@@ -25,6 +25,14 @@ Cambiar la ruta del directorio UPLOAD_FOLDER
 
 Probar en http://localhost:4545
 
-### Resultado
+### Screens
 
-<img src="https://raw.githubusercontent.com/juliocesar-io/python_web_practice/master/static/img/screenshot%231.png">
+Vista principal
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshot-1.png">
+
+--- 
+
+Resultado de busqueda 
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshot-2.png">
