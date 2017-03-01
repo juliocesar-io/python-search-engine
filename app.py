@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from flask import Flask, request, redirect, render_template, flash
+from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
 from collections import Counter
 import unicodedata
@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 
 
 # Path donde se guardaran los archivos subidos, !Cambiar a un directorio existente!
-UPLOAD_FOLDER = '/Users/JulioC/PycharmProjects/flask-practice/media'
+UPLOAD_FOLDER = '/tmp'
 
 # Extenciones de archivo permitidas.
 ALLOWED_EXTENSIONS = set(['txt'])
@@ -127,7 +127,7 @@ def upload_file():
                 # Limpiar el nombre del archivo
                 filename = secure_filename(file_p.filename)
 
-                # Guardar archivo en el directorio definido
+                # Subir archivo local
                 path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file_p.save(path)
 
@@ -152,7 +152,7 @@ def upload_file():
         elif request.form['url'] != '':
             url = request.form['url']
             r = urllib.urlopen(url)
-            if r.getcode() == '200':
+            if str(r.getcode()) == '200':
                 # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
                 words = get_words_html(url)
 
