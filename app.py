@@ -82,9 +82,9 @@ def upload_file():
     return render_template('form.html')
 
 
-# Descargar archivos subidos al directorio UPLOAD_FOLDER
 @app.route('/file/<filename>', methods=['GET'])
 def return_file(filename):
+    # Descargar archivos subidos al directorio UPLOAD_FOLDER
     try:
         return send_file(UPLOAD_FOLDER + "/" + str(filename))
     except Exception as e:
