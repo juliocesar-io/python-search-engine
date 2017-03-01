@@ -37,6 +37,10 @@
             font-size: 13px;
         }
 
+        #info-d{
+            color: gray; font-size: 10px; display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -49,18 +53,20 @@
         <p>  <input class="search-input" type="search" name="buscar-palabra" placeholder=">" autofocus required></p>
 
         <div class="search-options">
-            <input type="radio" name="en" onclick="showOption(this);" value="file-text"> Archivo
+            <input type="radio" name="en" onclick="showOption(this);" value="file-text" required> Archivo
             <input type="radio" name="en" onclick="showOption(this);" value="html"> URL
+            <input type="radio" name="en" onclick="showOption(this);" value="currency"> ($) Conversor <a href="/currency">?</a>
         </div>
         <br>
         <input id="input-file" type=file name=file>
         <input id="input-url" type="url" name="url" placeholder="https://python.org/">
+        <p id="info-d">Cantidad {espacio} el cod  divisa de origen {espacio/en/to} cod destino. Ej: '1 USD en MXN' y pulse buscar.</p>
 
         <p>  <input type=submit value=Buscar></p>
 
         <br>
 
-        <span><a href="https://github.com/juliocesar-io/python_web_practice" target="_blank">Repositorio Github</a></span>
+        <span>[ <a href="https://github.com/juliocesar-io/python_web_practice" target="_blank">Repositorio Github</a> ]</span>
 
     </form>
 </div>
@@ -71,6 +77,7 @@
 
     var input_file_element = document.getElementById("input-file");
     var input_url_element = document.getElementById("input-url");
+    var info_element_divisa = document.getElementById("info-d");
 
     function showOption(option) {
 
@@ -79,13 +86,24 @@
                 input_file_element.style.display = 'inline';
                 input_file_element.required = true;
                 input_url_element.style.display = 'none';
+                info_element_divisa.style.display = 'none';
                 input_url_element.required = false;
+
                 break;
             case 'html':
                 input_file_element.required = false;
                 input_file_element.style.display = 'none';
+                 info_element_divisa.style.display = 'none';
                 input_url_element.style.display = 'inline';
-                 input_url_element.required = true;
+                input_url_element.required = true;
+                 break;
+
+            case 'currency':
+                input_file_element.required = false;
+                input_url_element.required = false;
+                input_file_element.style.display = 'none';
+                input_url_element.style.display = 'none';
+                info_element_divisa.style.display = 'inline';
                 break;
 
         }

@@ -26,23 +26,23 @@ tr:nth-child(even) {
     <meta charset="UTF-8">
     <title>Practica #1</title>
 
-    <a href="/">Regresar</a>
+   [ <a href="/">Regresar</a> ]
 
     <h1>Resultado: </h1>
 
     {% if filename %}
     <p>Archivo: <a href="/file/{{ filename }}"  target="_blank">{{ filename }}</a></p>
-    {% else %}
+    {% elif url %}
      <p>URL: <a href="{{ url }}" target="_blank">{{ url }}</a></p>
     {% endif %}
 
 
-    <hr>
+    {% if show %}
 
     {% if search_result %}
         <span>La palabra {{ search_key }} aparece {{ search_result }} veces ({{ benchmark }} segundos)</span>
     {% else %}
-        <span>No se encuentra la palabra {{ search_key }} ({{ benchmark }} segundos) </span>
+        <span>No se encuentra la palabra {{ search_key }} en los primeros 10 resultados ({{ benchmark }} segundos) </span>
     {% endif %}
     <br>
     <br>
@@ -66,6 +66,32 @@ tr:nth-child(even) {
 
 
         </table>
+
+    {% else %}
+
+        {% if c_amount != 0 %}
+
+        <span style="font-size: 13px">{{ amount }} {{ c_from }} equivale a</span>
+        <h2 style="margin: 1px">{{ c_amount }} {{ c_to }}</h2>
+
+
+         {% else %}
+
+             <span style="font-size: 13px">No se puede convertir de {{ c_from }} a {{ c_to }}</span>
+
+        {% endif %}
+
+        <br>
+
+
+
+
+    {% endif %}
+
+  <hr>
+
+
+
 
 </head>
 <body>

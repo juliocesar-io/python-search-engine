@@ -29,11 +29,17 @@
 
             <p>La URL "<strong>{{ url }}</strong>" retorna error: {{error_url }} </p>
 
+
+        {% elif error_c %}
+               <p>La conversion "<strong>{{ search_key }}</strong>" esta mal formada,  error: {{error_c }} </p>
+
+                <p><small>Cantidad {espacio} el cod  divisa de origen {espacio/en/to} cod destino. Ej: '1 USD en MXN' </small></p>
+
         {% endif %}
 
 
     <br>
-    <a href="/">Regresar</a>
+    [ <a href="/">Regresar</a> ]
         </div>
 </body>
 </html>

@@ -67,20 +67,27 @@ def get_words_html(url):
     for k, v in c_plain.items():
         c.update({clean_word(k): v})
 
-    return get_words_dict(c)
+    w_dict = get_words_dict(c)
+
+    del w_dict['']
+
+    return w_dict
 
 
 def sort_words_dict(word_dict):
     # Este metodo ordena un diccionario, primero lo covierte en una tupla luego ordena por valor y
     # finalmente por la llave en forma desendente.
     words_tuple = tuple(word_dict.iteritems())
-    words_sorted = sorted(sorted(words_tuple, key=lambda x: x[0])[:10], key=lambda x: x[1], reverse=True)
+    words_sorted = sorted(sorted(words_tuple, key=lambda x: x[0]), key=lambda x: x[1], reverse=True)[:10]
+
+    print words_sorted
 
     return words_sorted
 
 
 def word_search(key, word_dict):
     # Verifica si existe una llave el un diccionario dado
+
     if key in word_dict:
         res = word_dict[key]
     else:
