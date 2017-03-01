@@ -1,4 +1,3 @@
-en a
 Python Search Engine
 ======================
 [![Heroku](https://heroku-badge.herokuapp.com/?app=python-search&style=flat)](https://python-search.herokuapp.com/)
