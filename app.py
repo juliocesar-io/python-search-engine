@@ -5,7 +5,7 @@ from utils import *
 from werkzeug.utils import secure_filename
 import time
 from flask import send_file
-import urllib
+import urllib,urllib2
 
 """
 "" Created by Julio César 27/02/2017.
@@ -58,26 +58,26 @@ def upload_file():
 
         elif request.form['url'] != '':
             url = request.form['url']
-            r = urllib.urlopen(url)
-            if str(r.getcode()) == '200':
-                # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
-                words = get_words_html(url)
+            try:
+                r = urllib2.urlopen(url)
+                if str(r.getcode()) == '200':
+                    # Obtener las palabras con su cuenta respectiva en un dicionario llave-valor
+                    words = get_words_html(url)
 
-                # Organizar por ocurrencia y orden alfabetico
-                words_result_sorted = sort_words_dict(words)
+                    # Organizar por ocurrencia y orden alfabetico
+                    words_result_sorted = sort_words_dict(words)
 
-                # Buscar una palabra dada
-                search_key = request.form['buscar-palabra'].upper()
-                search_result = word_search(search_key, words)
+                    # Buscar una palabra dada
+                    search_key = request.form['buscar-palabra'].upper()
+                    search_result = word_search(search_key, words)
 
-                end_time = time.time() - start_time
+                    end_time = time.time() - start_time
 
-                return render_template('response.html', url=url, words_result=words_result_sorted,
-                                       search_key=search_key, search_result=search_result, benchmark=end_time)
+                    return render_template('response.html', url=url, words_result=words_result_sorted,
+                                           search_key=search_key, search_result=search_result, benchmark=end_time)
+            except urllib2.URLError, err:
 
-            else:
-
-                return render_template('alert.html', error_url=r.getcode(), url=url)
+                return render_template('alert.html', error_url=err, url=url)
 
     return render_template('form.html')
 
