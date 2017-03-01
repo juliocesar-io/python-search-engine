@@ -12,6 +12,10 @@
             padding: 200px;
             font-size: 20px;
         }
+
+        small {
+            color: gray;
+        }
     </style>
 </head>
 <body>
@@ -19,6 +23,7 @@
 
         {% if error_file %}
          <p>Archivo "<strong>{{ error_file }}</strong>" no permitido </p>
+            <p><small>El archivo debe estar en formato <strong>txt</strong></small></p>
 
         {% elif error_url %}
 

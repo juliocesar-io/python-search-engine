@@ -11,9 +11,9 @@ Practicas de desarrollo web usando Python con Flask, en este practica se lee un 
 
 -  https://pip.pypa.io/en/stable/installing/
 
-Luego con pip instalar Flask
+Luego instalar las depencias
 
-    pip install flask
+    pip install -r requirements.txt
 
 ### Configuracion
 
