@@ -11,6 +11,11 @@ Practicas de desarrollo web usando Python con Flask, en este practica se lee un 
 
 -  https://pip.pypa.io/en/stable/installing/
 
+
+En Linux:
+
+     sudo apt-get install python-pip python-dev build-essential 
+
 Luego instalar las depencias
 
     pip install -r requirements.txt
