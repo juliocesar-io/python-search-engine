@@ -1,0 +1,9 @@
+{
+  "name": "Python Search Engine",
+  "description": "Buscador en Python con Flask, peude leer un archivo txt o una url, contar las palabras, ordenar y buscar",
+  "keywords": [
+    "flask",
+    "python"
+  ],
+  "repository": "https://github.com/juliocesar-io/python-search-engine",
+}
