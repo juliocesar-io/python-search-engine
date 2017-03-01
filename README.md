@@ -41,14 +41,49 @@ Cambiar la ruta del directorio UPLOAD_FOLDER
 
 Probar en http://localhost:4545
 
-### Screens
+### Vistas
 
-Vista principal
+#####  Vista principal
 
-<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshot-1.png">
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/1.png">
 
 --- 
 
-Resultado de busqueda 
+##### Resultado de busqueda 
 
-<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshot-2.png">
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/2.png">
+
+---
+
+##### Divisas
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/3.png">
+
+---
+
+#####  Resultado
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/4.png">
+
+---
+
+##### Conversion interpretada
+ 
+Se indica la cantidad seguida de codigo valido de la divisas de origen y destino.
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/5.png">
+
+---
+
+#### Respuesta de errores
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/Error%202.png">
+
+---
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/Error%203.png">
+
+---
+
+<img src="https://raw.githubusercontent.com/juliocesar-io/python-search-engine/master/static/img/screenshots/Error%204.png">
+
