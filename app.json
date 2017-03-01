@@ -1,6 +1,6 @@
 {
   "name": "Python Search Engine",
-  "description": "Buscador en Python con Flask, peude leer un archivo txt o una url, contar las palabras, ordenar y buscar",
+  "description": "Buscador en Python con Flask, puede leer un archivo txt o una url, contar palabras, ordenar, clasificar e interpretar.",
   "keywords": [
     "flask",
     "python"
