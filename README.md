@@ -18,7 +18,7 @@ Desarrollo
 
 ### Instalar Python y pip
 
--  https://www.python.org/downloads/
+-  (Probado en python 2.7) https://www.python.org/downloads/
 
 -  https://pip.pypa.io/en/stable/installing/
 
