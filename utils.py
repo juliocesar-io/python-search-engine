@@ -37,7 +37,10 @@ def get_words_txt(path):
         words = [clean_word(word) for line in f for word in line.split()]
         c = Counter(words)
 
-    return get_words_dict(c)
+    w_dict = get_words_dict(c)
+    del w_dict['']
+
+    return w_dict
 
 
 def get_words_html(url):
