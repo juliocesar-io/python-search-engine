@@ -1,0 +1,10 @@
+hola mundo holaMundo
+¡Holaa Mundooo!
+¡lala comida está Escasa!
+escasa está la comida.
+La casa está vacía.
+¿puede estar vacía la casa?
+HOLA debe aparecer 2 veces
+CASA debe aparecer 3 veces
+MUNDO debe aparecer 2 veces
+LA debe aparecer 4 veces
