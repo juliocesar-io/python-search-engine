@@ -1,8 +1,7 @@
-
 Python Search Engine
 ======================
 [![Heroku](https://heroku-badge.herokuapp.com/?app=python-search&style=flat)](https://python-search.herokuapp.com/)
-
+ 
 
 Buscador en Python con Flask, puede leer un archivo txt o una url, contar palabras, ordenar, clasificar e interpretar.
 
@@ -33,7 +32,7 @@ Luego instalar las depencias
 
 ### Configuracion
 
-Cambiar la ruta del directorio UPLOAD_FOLDER
+Cambiar la ruta del directorio UPLOAD_FOLDER en el archivo app.py
 
 ### Iniciar servidor local
 
